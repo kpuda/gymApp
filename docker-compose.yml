@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  mysql-standalone:
+    image: mysql:5.6
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gym_pal
+    ports:
+      - 3307:3306
+  gym-pal:
+    image: gym-pal:latest
+    build:
+      context: ./gymPal/
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql-standalone
+    restart: on-failure
+    ports:
+      - 8080:8080
