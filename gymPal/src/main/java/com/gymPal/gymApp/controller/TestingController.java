@@ -27,6 +27,6 @@ public class TestingController {
 
     @PostMapping("/admin/addRole")
     public ResponseEntity<?> addRole(@RequestParam("username")String username, @RequestParam("role")String role){
-        return ResponseEntity.ok().body(userService.addRoleToUser(username,role));
+        return userService.addRoleToUser(username,role);
     }
 }

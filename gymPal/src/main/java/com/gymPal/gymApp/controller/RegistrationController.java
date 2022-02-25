@@ -25,31 +25,32 @@ public class RegistrationController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegistrationUserModel registrationUserModel, final HttpServletRequest request) {
         URI uri= URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/register").toUriString());
-        return ResponseEntity.created(uri).body(userService.registerUser(registrationUserModel, request));
+        return userService.registerUser(registrationUserModel, request);
+
     }
 
     @PostMapping("/verifyRegistration")
     public ResponseEntity<?> verifyRegistration(@RequestParam("token") String token) {
-        return ResponseEntity.ok().body(userService.verifyRegistration(token));
+        return userService.verifyRegistration(token);
     }
 
     @GetMapping("/resendVerificationToken")
     public ResponseEntity<?> resendVerificationToken(@RequestBody RegistrationUserModel userModel,final HttpServletRequest request){
-        return ResponseEntity.ok().body(userService.resendVerificationToken(userModel,request));
+        return userService.resendVerificationToken(userModel,request);
     }
 
     @PostMapping("/changePassword")
     public ResponseEntity<?> changePassword(@RequestBody PasswordModel passwordModel, final HttpServletRequest request) {
-        return ResponseEntity.ok().body(userService.changePasssword(passwordModel, request));
+        return userService.changePasssword(passwordModel, request);
     }
 
     @PostMapping("/resetPassword")
-    public String resetPassword(@RequestBody PasswordModel passwordModel, final HttpServletRequest request) {
+    public ResponseEntity<?> resetPassword(@RequestBody PasswordModel passwordModel, final HttpServletRequest request) {
         return userService.resetPassword(passwordModel, request);
     }
 
     @PostMapping("/savePassword")
-    public String savePassword(@RequestParam("token") String token, @RequestBody PasswordModel passwordModel) {
+    public ResponseEntity<?> savePassword(@RequestParam("token") String token, @RequestBody PasswordModel passwordModel) {
         return userService.savePassword(token, passwordModel);
     }
 

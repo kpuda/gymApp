@@ -3,27 +3,30 @@ package com.gymPal.gymApp.service;
 import com.gymPal.gymApp.entity.Role;
 import com.gymPal.gymApp.model.PasswordModel;
 import com.gymPal.gymApp.model.RegistrationUserModel;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface UserService {
-    String registerUser(RegistrationUserModel registrationUserModel, HttpServletRequest request);
+    ResponseEntity registerUser(RegistrationUserModel registrationUserModel, HttpServletRequest request);
 
-    String verifyRegistration(String token);
+    ResponseEntity verifyRegistration(String token);
 
-    String changePasssword(PasswordModel passwordModel, HttpServletRequest request);
+    ResponseEntity changePasssword(PasswordModel passwordModel, HttpServletRequest request);
 
-    String savePassword(String token, PasswordModel passwordModel);
+    ResponseEntity savePassword(String token, PasswordModel passwordModel);
 
-    String resetPassword(PasswordModel passwordModel, HttpServletRequest request);
+    ResponseEntity resetPassword(PasswordModel passwordModel, HttpServletRequest request);
 
     Role saveRole(Role role);
 
-    String addRoleToUser(String username, String rolename);
+    ResponseEntity addRoleToUser(String username, String rolename);
 
     Object resendVerificationToken(RegistrationUserModel email, HttpServletRequest request);
 
     void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    ResponseEntity getUsers();
 }

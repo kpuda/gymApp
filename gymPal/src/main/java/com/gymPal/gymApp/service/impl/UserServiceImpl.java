@@ -17,6 +17,7 @@ import com.gymPal.gymApp.repository.TokenRepository;
 import com.gymPal.gymApp.repository.UserRepository;
 import com.gymPal.gymApp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Service
@@ -53,6 +55,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private static final String USER_NOT_FOUND = "USER_NOT_FOUND";
     private static final String USER_REGISTERED = "USER_REGISTERED";
     private static final String USER_VERIFIED = "USER_VERIFIED";
+    private static final String USER_ROLE_ADDED = "USER_ROLE_ADDED";
     private static final String USER_VERIFIED_ALREADY = "USER_VERIFIED_ALREADY";
     private static final String PASSWORD_CHANGED = "PASSWORD_CHANGED";
     private static final String PASSWORD_OLD_INCORRECT = "PASSWORD_OLD_INCORRECT";
@@ -74,15 +77,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public String registerUser(RegistrationUserModel registrationUserModel, HttpServletRequest request) {
+    public ResponseEntity registerUser(RegistrationUserModel registrationUserModel, HttpServletRequest request) {
         User user = userRepository.findByEmail(registrationUserModel.getEmail());
         User userFromUsername = userRepository.findByUsername(registrationUserModel.getUsername());
         String url;
         if (user != null || userFromUsername != null) {
             if (user != null) {
-                return EMAIL_TAKEN;
+                return ResponseEntity.unprocessableEntity().body(EMAIL_TAKEN);
             } else {
-                return USERNAME_TAKEN;
+                return ResponseEntity.unprocessableEntity().body( USERNAME_TAKEN);
             }
         } else {
             user = generateUser(registrationUserModel);
@@ -95,28 +98,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             log.info("Url: {}", url);
             log.info("Token: {}", token);
         }
-        return USER_REGISTERED;
+        return ResponseEntity.accepted().body(USER_REGISTERED);
     }
 
     @Override
     @Transactional
-    public String verifyRegistration(String token) {
+    public ResponseEntity verifyRegistration(String token) {
         Token registrationToken = tokenRepository.findByToken(token);
         if (registrationToken == null) {
-            return TOKEN_INVALID;
+            return ResponseEntity.status(404).body(TOKEN_INVALID);
         } else {
             if (registrationToken.getExpirationDate().getTime() < new Date().getTime()) {
-                return TOKEN_EXPIRED;
+                return ResponseEntity.status(400).body(TOKEN_EXPIRED);
             } else if (registrationToken.getTokenValid().equals(TokenValid.TOKEN_USED)) {
-                return TOKEN_USED;
+                return ResponseEntity.status(400).body(TOKEN_USED);
             } else {
                 if (!registrationToken.getTokenType().equals(TokenType.NEW_ACCOUNT_VERIFICATION)) {
-                    return TOKEN_INVALID;
+                    return ResponseEntity.status(400).body(TOKEN_INVALID);
                 }
 
                 User user = registrationToken.getUser();
                 if (user.isEnabled()) {
-                    return USER_VERIFIED_ALREADY;
+                    return ResponseEntity.status(400).body(USER_VERIFIED_ALREADY);
                 } else {
                     registrationToken.setTokenValid(TokenValid.TOKEN_USED);
                     user.setEnabled(true);
@@ -125,15 +128,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 }
             }
         }
-        return USER_VERIFIED;
+        return ResponseEntity.ok().body(USER_VERIFIED);
     }
 
     @Override
-    public Object resendVerificationToken(RegistrationUserModel userModel, HttpServletRequest request) {
+    public ResponseEntity resendVerificationToken(RegistrationUserModel userModel, HttpServletRequest request) {
         User user = userRepository.findByEmail(userModel.getEmail());
         String url;
         if (user == null) {
-            return EMAIL_NOT_FOUND;
+            return ResponseEntity.status(404).body(EMAIL_NOT_FOUND);
         } else {
             String token = UUID.randomUUID().toString();
             Token registrationToken = new Token(user, token, TokenType.NEW_ACCOUNT_VERIFICATION, TokenValid.TOKEN_VALID);
@@ -143,32 +146,32 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             log.info("Url: {}", url);
             log.info("Token: {}", token);
         }
-        return TOKEN_SENT;
+        return ResponseEntity.ok().body(TOKEN_SENT);
     }
 
     @Override
-    public String changePasssword(PasswordModel passwordModel, HttpServletRequest request) {
+    public ResponseEntity changePasssword(PasswordModel passwordModel, HttpServletRequest request) {
         User user = userRepository.findByEmail(passwordModel.getEmail());
         String url;
         if (user == null) {
-            return EMAIL_NOT_FOUND;
+            return ResponseEntity.unprocessableEntity().body(EMAIL_NOT_FOUND);
         } else {
             if (!checkIfOldPasswordIsValid(passwordModel.getPassword(), user)) {
-                return PASSWORD_OLD_INCORRECT;
+                return ResponseEntity.unprocessableEntity().body(PASSWORD_OLD_INCORRECT);
             } else {
                 user.setPassword(passwordModel.getNewPassword());
                 userRepository.save(user);
             }
         }
-        return PASSWORD_CHANGED;
+        return ResponseEntity.ok().body(PASSWORD_CHANGED);
     }
 
     @Override
-    public String resetPassword(PasswordModel passwordModel, HttpServletRequest request) {
+    public ResponseEntity resetPassword(PasswordModel passwordModel, HttpServletRequest request) {
         User user = userRepository.findByEmail(passwordModel.getEmail());
         String url;
         if (user == null) {
-            return USER_NOT_FOUND;
+            return ResponseEntity.unprocessableEntity().body(USER_NOT_FOUND);
         } else {
             String token = UUID.randomUUID().toString();
             Token resetPasswordToken = new Token(user, token, TokenType.FORGOT_PASSWORD, TokenValid.TOKEN_VALID);
@@ -178,21 +181,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             log.info("Url: {}", url);
             log.info("Token: {}", token);
         }
-        return TOKEN_SENT;
+        return ResponseEntity.ok().body(TOKEN_SENT);
     }
 
     @Override
-    public String savePassword(String token, PasswordModel passwordModel) {
+    public ResponseEntity savePassword(String token, PasswordModel passwordModel) {
         Token changePasswordToken = tokenRepository.findByToken(token);
         if (changePasswordToken == null) {
-            return TOKEN_NOT_FOUND;
+            return ResponseEntity.unprocessableEntity().body(TOKEN_NOT_FOUND);
         } else {
             if (changePasswordToken.getExpirationDate().getTime() < new Date().getTime()) {
-                return TOKEN_EXPIRED;
+                return ResponseEntity.unprocessableEntity().body(TOKEN_EXPIRED);
             } else if (!changePasswordToken.getTokenType().equals(TokenType.FORGOT_PASSWORD)) {
-                return TOKEN_INVALID;
+                return ResponseEntity.unprocessableEntity().body(TOKEN_INVALID);
             } else if (changePasswordToken.getTokenValid().equals(TokenValid.TOKEN_USED)) {
-                return TOKEN_USED;
+                return ResponseEntity.unprocessableEntity().body(TOKEN_USED);
             } else {
                 User user = userRepository.findByEmail(changePasswordToken.getUser().getEmail());
                 changePasswordToken.setTokenValid(TokenValid.TOKEN_USED);
@@ -201,7 +204,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 tokenRepository.save(changePasswordToken);
             }
         }
-        return PASSWORD_CHANGED;
+        return ResponseEntity.ok().body(PASSWORD_CHANGED);
     }
 
     @Override
@@ -210,23 +213,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public String addRoleToUser(String username, String rolename) {
+    public ResponseEntity addRoleToUser(String username, String rolename) {
         User user = userRepository.findByUsername(username);
         Role role = roleRepository.findByName(rolename.toUpperCase());
-        user.getRoles().add(role);
-        userRepository.save(user);
-        return "ADDED";//TODO
+        if (role!=null) {
+            user.getRoles().add(role);
+            userRepository.save(user);
+            return ResponseEntity.ok().body(USER_ROLE_ADDED);
+        } else {
+            return ResponseEntity.unprocessableEntity().body(INTERNAL_SERVER_ERROR);
+        }
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            return null;//TODO
-        } else if (!user.isEnabled()) {
-            return null;
+        Optional<User> userOpt = Optional.ofNullable(userRepository.findByUsername(username));
+        if (userOpt.isEmpty()) {
+            return (UserDetails) userOpt.orElseThrow(()-> new UsernameNotFoundException("Not found: "+username));//todo
         } else {
+            User user= userOpt.get();
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
@@ -266,6 +271,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             throw new RuntimeException("Refresh token is missing");
         }
+    }
+
+    @Override
+    public ResponseEntity<?> getUsers() {
+        return ResponseEntity.accepted().body(userRepository.findAll());
     }
 
     //TODO
