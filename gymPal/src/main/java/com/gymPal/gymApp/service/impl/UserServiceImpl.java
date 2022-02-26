@@ -1,10 +1,5 @@
 package com.gymPal.gymApp.service.impl;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.interfaces.JWTVerifier;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gymPal.gymApp.entity.Role;
 import com.gymPal.gymApp.entity.Token;
 import com.gymPal.gymApp.entity.User;
@@ -29,15 +24,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static com.gymPal.gymApp.utils.ServerConsts.*;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Service
 @Slf4j
@@ -48,24 +38,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     TokenRepository tokenRepository;
     PasswordEncoder passwordEncoder;
     JavaMailSenderImpl javaMailSender;
-
-    private static final String EMAIL_TAKEN = "EMAIL_TAKEN";
-    private static final String EMAIL_NOT_FOUND = "EMAIL_NOT_FOUND";
-    private static final String USERNAME_TAKEN = "USERNAME_TAKEN";
-    private static final String USER_NOT_FOUND = "USER_NOT_FOUND";
-    private static final String USER_REGISTERED = "USER_REGISTERED";
-    private static final String USER_VERIFIED = "USER_VERIFIED";
-    private static final String USER_ROLE_ADDED = "USER_ROLE_ADDED";
-    private static final String USER_VERIFIED_ALREADY = "USER_VERIFIED_ALREADY";
-    private static final String PASSWORD_CHANGED = "PASSWORD_CHANGED";
-    private static final String PASSWORD_OLD_INCORRECT = "PASSWORD_OLD_INCORRECT";
-
-    private static final String TOKEN_USED = "TOKEN_USED";
-    private static final String TOKEN_SENT = "TOKEN_SENT";
-    private static final String TOKEN_EXPIRED = "TOKEN_EXPIRED";
-    private static final String TOKEN_INVALID = "TOKEN_INVALID";
-    private static final String TOKEN_NOT_FOUND = "TOKEN_NOT_FOUND";
-
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder, JavaMailSenderImpl javaMailSender) {
         this.userRepository = userRepository;
@@ -85,7 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             if (user != null) {
                 return ResponseEntity.unprocessableEntity().body(EMAIL_TAKEN);
             } else {
-                return ResponseEntity.unprocessableEntity().body( USERNAME_TAKEN);
+                return ResponseEntity.unprocessableEntity().body(USERNAME_TAKEN);
             }
         } else {
             user = generateUser(registrationUserModel);
@@ -216,7 +188,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public ResponseEntity addRoleToUser(String username, String rolename) {
         User user = userRepository.findByUsername(username);
         Role role = roleRepository.findByName(rolename.toUpperCase());
-        if (role!=null) {
+        if (role != null) {
             user.getRoles().add(role);
             userRepository.save(user);
             return ResponseEntity.ok().body(USER_ROLE_ADDED);
@@ -227,18 +199,29 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userOpt = Optional.ofNullable(userRepository.findByUsername(username));
-        if (userOpt.isEmpty()) {
-            return (UserDetails) userOpt.orElseThrow(()-> new UsernameNotFoundException("Not found: "+username));//todo
+        Optional<User> userOpt;
+        if (username.contains("@")) {
+            log.info("User is being fetched by a mail");
+            userOpt = Optional.ofNullable(userRepository.findByEmail(username));
         } else {
-            User user= userOpt.get();
+            log.info("User is being fetched by a username");
+            userOpt = Optional.ofNullable(userRepository.findByUsername(username));
+        }
+        if (userOpt.isEmpty()) {
+            log.info("User is empty");
+            return (UserDetails) userOpt.orElseThrow(() -> new UsernameNotFoundException("Not found: " + username));//todo
+        } else {
+            log.info("User is loaded");
+
+            User user = userOpt.get();
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
         }
     }
 
-    @Override
+    //TODO is refresh token necessary?
+    /*@Override
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -271,7 +254,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             throw new RuntimeException("Refresh token is missing");
         }
-    }
+    }*/
 
     @Override
     public ResponseEntity<?> getUsers() {
