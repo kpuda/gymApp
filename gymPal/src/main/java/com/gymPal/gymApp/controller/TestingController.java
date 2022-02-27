@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api")
@@ -21,7 +24,9 @@ public class TestingController {
     }
 
     @GetMapping("/admin/hello")
-    public String yea(Principal principal){
+    public String yea(Principal principal, final HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        Arrays.stream(cookies).forEach(System.out::println);
         return "Hello "+principal.getName();
     }
 

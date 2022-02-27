@@ -58,7 +58,7 @@ public class RegistrationController {
 
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        userService.refreshToken(request,response);
+       //TODO userService.refreshToken(request,response);
     }
 
 

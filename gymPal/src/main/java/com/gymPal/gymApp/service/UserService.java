@@ -6,8 +6,6 @@ import com.gymPal.gymApp.model.RegistrationUserModel;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public interface UserService {
     ResponseEntity registerUser(RegistrationUserModel registrationUserModel, HttpServletRequest request);
@@ -26,7 +24,7 @@ public interface UserService {
 
     Object resendVerificationToken(RegistrationUserModel email, HttpServletRequest request);
 
-    void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    //TODO void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     ResponseEntity getUsers();
 }

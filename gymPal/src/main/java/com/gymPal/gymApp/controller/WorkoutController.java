@@ -13,12 +13,13 @@ public class WorkoutController {
 
     WorkoutService workoutService;
     @GetMapping("/getWorkout")
-    public Workout getWorkout(){
-        return workoutService.getWorkout("kp@gmail.com");
+    public Workout getWorkout(@RequestParam("workoutName") String workoutName){
+        return workoutService.getWorkout(workoutName);
     }
 
     @PostMapping("/saveWorkout")
     public String saveWorkout(@RequestBody NewWorkoutModel workout){
         return workoutService.saveNewWorkout(workout);
     }
+
 }
