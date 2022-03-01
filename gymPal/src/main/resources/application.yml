@@ -25,6 +25,8 @@ spring:
     port: '587'
   banner:
     location: classpath:banner.txt
+jwt:
+  secret: secret
 logging:
   level:
     root: INFO

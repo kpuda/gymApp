@@ -1,10 +1,91 @@
- ________ ________  ________  _________  ________  ________  ___       ___                     ________  ________  ________  ________  _______      
-|\  _____\\   __  \|\   __  \|\___   ___\\   __  \|\   __  \|\  \     |\  \                   |\   ____\|\   ____\|\   __  \|\   __  \|\  ___ \     
-\ \  \__/\ \  \|\  \ \  \|\  \|___ \  \_\ \  \|\ /\ \  \|\  \ \  \    \ \  \      ____________\ \  \___|\ \  \___|\ \  \|\  \ \  \|\  \ \   __/|    
- \ \   __\\ \  \\\  \ \  \\\  \   \ \  \ \ \   __  \ \   __  \ \  \    \ \  \    |\____________\ \_____  \ \  \    \ \  \\\  \ \   _  _\ \  \_|/__  
-  \ \  \_| \ \  \\\  \ \  \\\  \   \ \  \ \ \  \|\  \ \  \ \  \ \  \____\ \  \___\|____________|\|____|\  \ \  \____\ \  \\\  \ \  \\  \\ \  \_|\ \ 
-   \ \__\   \ \_______\ \_______\   \ \__\ \ \_______\ \__\ \__\ \_______\ \_______\              ____\_\  \ \_______\ \_______\ \__\\ _\\ \_______\
-    \|__|    \|_______|\|_______|    \|__|  \|_______|\|__|\|__|\|_______|\|_______|             |\_________\|_______|\|_______|\|__|\|__|\|_______|
-                                                                                                 \|_________|                                       
-                                                                                                                                                    
-                                                                                                                                                    
+                           `/+o/.
+                       .+sso+/:oydyo/:-:+shdys/    `-:.     `-/+o+/`
+                 `/sdh+/::/::ss:`ymdhyso//hmMNyhNNms+ososys+/-:/shms/`
+                .+hNNy++oo+/.`.--/osyhdmNNMMMMMMMMMNdsssssoso+hhhhsoo+ymdo.
+              -smNy/+ymmmmmNNNNMNMMMMMNNNmmNMMMMMMMMMho:///:--shydNMMNdo-sNs`
+            -hNd+-sNMNdmNMMMNNNMNNNMMMddNMMNNmNMMMMMMNmy+///::/:-:/++ymNNdmMN:
+          `sNMs`+NMNNNMMMMNNNMMMMMMNmhyso///+ohMmoNMmoo+/::/-:oymNNmsosshdhmMM/
+         +NMMy`hMMMhyNMNMMNNNMds:-.`-:syddmNMMmyo`+yMMho:..-+//++omMNNNNNNNmdNMs
+       :mMMMh`yMNdodNNNMNMMMs.+sdmmmmmdhNMMMNhy/..`-syhNmdyssso+/.`:yNMMMMNMNMMMy
+      :NMNh:-+MMh+mdNNNNNMd.+NNMMMMMMMMmho:-......:--::ohNMMMMMMNmNy/.oNMNmNMNMMMs
+     :NMm+/dmmMNydyhNdhMMN.yMMNmhysso+:-``        ```.--:/+sdMMMMMNNNm:-mMNNNNMMMMy
+    :NMy/hNMMMMmNddsh/NmMy-Mms:..`.--.`                ``..-.:yNMMMMNMNs:NMMMNNNNMMy
+   :NNy/mMMMMMMmNMMshsNdMo/d-...``                       ```...-yMMMNNMd`NMMNMdmoNMM-
+  /mMm+NMNNMMNMNNNNNNNNMMmom/                              ```..`+NMMMMh`NMMMMNNdhNMh
+ +NMMmmMNyNMNMMMMMNmmmNMdNNyh+.                             ``````/NMMM::MMMMNMNNmNMN
++MNNMMMNymMNNMMMNNNNNMh+:+dNmddhyoo+`                        ````.`sMMN`sMNNMNNMNNNNN
+dNNNMNNddMNNNNNNmymMN+---::/shdhyyy:                         `````..hMo.NMNMNMMMNmMMd
+dNNNMMNmNNNmmNMNdNMM+.-..----.-:::.                          ````...:mh/NMMMNMMMNNMMh
+sMNNMMNMNNmyNMNdmNMo--.....                                  ``...---:dNMNMMNMMNNNMMN.
+:NNNMMMNNNsmMNmMNMy...`.-.`                                    `.-----:odNmmNMMMMMNMMo
+.NMMMmMMMNmMNNNNMm:-.```..                                       ``-----:/o//dMMMNMMMm
+.NMMMNMMNMMNMNNNNs--.``...                                         `....---..dMNMMMMM`
+.NNMMNNNNNMMMNNNN:-...`...                                          ```.....`+MMMMMMM.
+.MNNNNNNNMMMMMNNy.......-.`                                         ``..---.`.NMMMMMM`
+`NMNMMNNNMMNMMMm-...`.-----.`                                        ``.-----.`yMMMMMd
+ dMMMNNNNMMNNMMo`-....----..`          ``                      `.`` ```.------`:MMMMM-
+ /MMNMNNNMMNMMN-`.`..-.--.` `--..-:-.-.``..``               ```.-......--.----..NMMMd
+ `mMNMNNMMMNNMN.``...-.-../hddyysyhysyyso+--/::-..--...----:::+syyyyhhdddy+:-.-.hMMM:
+  :NNNNNNMMMMMN.`....--.:dy/:-.-/+++ososss+/:+shyo/::/:+os+:+syosyoso+/://ss//.`+MMm
+   +MdmNNMNMMMN+.--....:+-.-:+ooymdddmdhyo++ss+/yMo.`..oNsyhdhmdmmmmNmdo:-.--:+-:MM/
+  `y/..-+dNNMMMo-shhyo++--+sso-`dsymoso.smyso+//.od+/:/ho+yyhd/ymsNhyy./yy/``.-hhmm`
+  .s+md+- oMMMm``.-/sy//-.+/s.  odys+s-  /shyso+.sm+:::yd/hh+:`.hyyhy- `/y/.` `hs/s`
+  -oyMNyhs:NMMo     `.-`         .---` ``.`/::+s/ms````-mo+:`````.--` ````     `sNm`
+  `hsMh`.hymMM:       `-         `          .:+:hy`     od:-`                  .+sM-``
+   o+o/``-/mMM-        .-                ``.```hy`       s.`.`                 -/+M+``
+   .s `./NMMMM-         --            ````  `:ho`        .s`  ```             ./.+My`
+    /: `+MMdMM/          -.  `       `   ..+++-           :d/.             ``:o-`oMy
+     o. .sdNMMm`            `--:://+//.`-///:.           `.ohooo:-.`` `.-:+//:..`hMy
+     `s```.yMMMs                  ```     .y+  `::.:----.-``o:-::/:::--:::-----..mMo
+      :s` `oMNMN-                         :N+  -NNhy/:/sds./:..----------------`/MN
+        +o``-NMNMd`                      `-syyoo++/.++:so/+yN+..--....-..-....--`dM+
+        +:.`oMNNN`                     .:-` `.::.` `--..---/+/---.```........-.:d:
+         ./++Ny::`                   `--`          .--..-----::-..```......---.s.
+           `:os.--`                  .`            `.. ``.------.`.```..-----.:o
+             `h-..`                 ``        .:syy/-/ydho-.--...`````.------.+.
+              +o`.`                        ./ymNNNNNNNmmNNNh:....``.```.-----:s
+              `h-`.                    -/+oyo/:----:---.--:+sso:........--::-+:
+               /d...                 `.++:  -:--/+:/oo+o++-.``--.....-----:-:y
+               `Md:.`                ``     `-:/+ooooo+/-........-----------yo
+                mNNs-`                     `..-/oo+://:/oo:......----------os
+                h:+md:.                  ...``.`         `------.---------++
+               `h..-+ddo.`                            ``.----------------s:
+                h` .--/ydy:`                   `...--------------------+y.
+                h`   ..--+yds+.`               `....----------------:+dN`
+               `y      `.-.-:sdhs:.`    `...````..----------------:smsdm
+               `h         .--..-+ymdy+/:----:----------------.-/shs+.`os
+               `h           `..--..:sdmmhyo/::----------::/+syhy/....`+-
+               -y              `..--..--/oosyyyhhhyyyssoooo/:.`...`.` /-
+               `.                  `..--.......................````   +`
+                                      `...------..-.........``
+                                          ``..-.--........``
+                                               ```..```
+
+------------------------------------------------
+"You miss 100% shots you don't take
+                            - Wayne Gretzky"
+                                - Michael Scott
+
+                                                                                    PPPPPPPPPPPPPPPPP                   lllllll
+                                                                                    P::::::::::::::::P                  l:::::l
+                                                                                    P::::::PPPPPP:::::P                 l:::::l
+                                                                                    PP:::::P     P:::::P                l:::::l
+   ggggggggg   gggggyyyyyyy           yyyyyyy mmmmmmm    mmmmmmm                      P::::P     P:::::Paaaaaaaaaaaaa    l::::l
+  g:::::::::ggg::::g y:::::y         y:::::ymm:::::::m  m:::::::mm                    P::::P     P:::::Pa::::::::::::a   l::::l
+ g:::::::::::::::::g  y:::::y       y:::::ym::::::::::mm::::::::::m                   P::::PPPPPP:::::P aaaaaaaaa:::::a  l::::l
+g::::::ggggg::::::gg   y:::::y     y:::::y m::::::::::::::::::::::m ---------------   P:::::::::::::PP           a::::a  l::::l
+g:::::g     g:::::g     y:::::y   y:::::y  m:::::mmm::::::mmm:::::m -:::::::::::::-   P::::PPPPPPPPP      aaaaaaa:::::a  l::::l
+g:::::g     g:::::g      y:::::y y:::::y   m::::m   m::::m   m::::m ---------------   P::::P            aa::::::::::::a  l::::l
+g:::::g     g:::::g       y:::::y:::::y    m::::m   m::::m   m::::m                   P::::P           a::::aaaa::::::a  l::::l
+g::::::g    g:::::g        y:::::::::y     m::::m   m::::m   m::::m                   P::::P          a::::a    a:::::a  l::::l
+g:::::::ggggg:::::g         y:::::::y      m::::m   m::::m   m::::m                 PP::::::PP        a::::a    a:::::a l::::::l
+ g::::::::::::::::g          y:::::y       m::::m   m::::m   m::::m                 P::::::::P        a:::::aaaa::::::a l::::::l
+  gg::::::::::::::g         y:::::y        m::::m   m::::m   m::::m                 P::::::::P         a::::::::::aa:::al::::::l
+    gggggggg::::::g        y:::::y         mmmmmm   mmmmmm   mmmmmm                 PPPPPPPPPP          aaaaaaaaaa  aaaallllllll
+            g:::::g       y:::::y
+gggggg      g:::::g      y:::::y
+g:::::gg   gg:::::g     y:::::y
+ g::::::ggg:::::::g    y:::::y
+  gg:::::::::::::g    yyyyyyy
+    ggg::::::ggg
+       gggggg
