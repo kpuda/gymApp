@@ -1,6 +1,5 @@
 package com.gymPal.gymApp.service.impl;
 
-import com.gymPal.gymApp.entity.Excercise;
 import com.gymPal.gymApp.entity.User;
 import com.gymPal.gymApp.entity.Workout;
 import com.gymPal.gymApp.model.ExcerciseRepsAndWeight;
@@ -13,7 +12,9 @@ import com.gymPal.gymApp.service.WorkoutService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -25,17 +26,24 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     @Override
     public Workout getWorkout(String workoutName) {
-        /*User user = userRepository.findByEmail(workoutName);
+
+        Workout workout = workoutRepository.findByWorkoutName(workoutName);
+        return workout;
+    }
+
+    private Workout mapWorkoutModelToWorkout(NewWorkoutModel newWorkoutModel, User user) {
         Workout workout = new Workout();
+        WorkoutModel workoutModel = new WorkoutModel();
         Set<User> userSet = new HashSet<>();
+        Map<Long, ExcerciseRepsAndWeight> excerciseList = newWorkoutModel.getExcerciseMap();
+        workoutModel.setExcerciseMap(excerciseList);
         userSet.add(user);
-        List<Excercise> excercises = new ArrayList<>();
-        excercises.add(new Excercise("Bench press", BodyPart.CHEST, ExcerciseIntesitivity.HIGH, ExcerciseRank.MAIN, WeightType.ATLAS));
-        excercises.add(new Excercise("Cable curl", BodyPart.BICEPS, ExcerciseIntesitivity.HIGH, ExcerciseRank.MAIN, WeightType.ATLAS));
+        workout.setWorkoutName(newWorkoutModel.getWorkoutName());
+        workout.setWorkoutOwner(user.getId());
+        workout.setPublic(newWorkoutModel.isWorkoutPublic());
+        workout.setExcerciseMap(excerciseList);
         workout.setUserSet(userSet);
-        workout.setExcercises(excercises);
-        workoutRepository.save(workout);*/
-        Workout workout= workoutRepository.findByWorkoutName(workoutName);
+
         return workout;
     }
 
@@ -43,32 +51,12 @@ public class WorkoutServiceImpl implements WorkoutService {
     public String saveNewWorkout(NewWorkoutModel workoutModel) {
         User user = userRepository.findByEmail(workoutModel.getEmail());
         if (user == null) {
-            return null; //TODO
+            return "no"; //TODO
         } else {
-            Workout workout = mapWorkoutModelToWorkout(workoutModel);
+            Workout workout = mapWorkoutModelToWorkout(workoutModel, user);
 
             workoutRepository.save(workout);
         }
-        return "saved";
-    }
-
-    private Workout mapWorkoutModelToWorkout(NewWorkoutModel newWorkoutModel) {
-        Workout workout = new Workout();
-        WorkoutModel workoutModel= new WorkoutModel();
-        Set<User> userSet = new HashSet<>();
-        List<Excercise> excercises = new ArrayList<>();
-        List<WorkoutModel> workoutModelList= new ArrayList<>();
-
-        Map<Excercise, ExcerciseRepsAndWeight> excerciseList = newWorkoutModel.getExcerciseList();
-        //workoutModel.setExcerciseMap(newWorkoutModel.getExcerciseList());
-        workoutModelList.add(workoutModel);
-
-        workout.setWorkoutName(newWorkoutModel.getWorkoutName());
-
-       // workout.setWorkoutModels(workoutModelList);
-        workout.setUserSet(userSet);
-       // workout.setExcercises(excercises);
-
-        return workout;
+        return "yes";
     }
 }

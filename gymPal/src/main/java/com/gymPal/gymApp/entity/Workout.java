@@ -1,12 +1,12 @@
 package com.gymPal.gymApp.entity;
 
-import com.gymPal.gymApp.model.WorkoutModel;
+import com.gymPal.gymApp.model.ExcerciseRepsAndWeight;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -25,5 +25,5 @@ public class Workout {
     private Set<User> userSet;
 
     @ElementCollection
-    private List<WorkoutModel> workoutModels;
+    Map<Long, ExcerciseRepsAndWeight> excerciseMap;
 }
