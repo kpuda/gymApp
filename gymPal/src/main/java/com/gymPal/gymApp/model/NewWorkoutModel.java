@@ -1,6 +1,5 @@
 package com.gymPal.gymApp.model;
 
-import com.gymPal.gymApp.entity.Excercise;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,5 +13,6 @@ public class NewWorkoutModel {
 
     private String workoutName;
     private String email;
-    private Map<Excercise,ExcerciseRepsAndWeight> excerciseList;
+    private boolean isWorkoutPublic=false;
+    private Map<Long,ExcerciseRepsAndWeight> excerciseMap;
 }
