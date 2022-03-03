@@ -1,16 +1,13 @@
 package com.gymPal.gymApp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 
 @Getter
 @Setter
-@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class ExcerciseRepsAndWeight {
 
