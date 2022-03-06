@@ -61,7 +61,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     private UsernamePasswordAuthenticationToken getAuthenticationToken(String authorizationHeader) {
         String token = authorizationHeader.substring("Bearer ".length());
-        Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
+        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decodedJWT = verifier.verify(token);
         String username = decodedJWT.getSubject();

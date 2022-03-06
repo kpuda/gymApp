@@ -55,7 +55,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         User user = (User) authentication.getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
+        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
         String access_token = generateJWToken(user, algorithm);
         String refresh_token = generateJWTRefreshToken(user, algorithm);
         Map<String, String> tokens = new HashMap<>();
@@ -68,6 +68,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         log.info("Failed to authenticate");
+        log.info("Request: {}",request.getUserPrincipal());//TODO
         response.setStatus(401);
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(),AUTHENTICATION_FAILED);
@@ -126,7 +127,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     private JWTVerifier getJWTVerifier() {
         JWTVerifier jwtVerifier;
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+            Algorithm algorithm = Algorithm.HMAC256("secret");
             jwtVerifier = JWT.require(algorithm).withIssuer(ISSUER).build();
         } catch (JWTVerificationException e) {
             throw new JWTVerificationException("Bad token");

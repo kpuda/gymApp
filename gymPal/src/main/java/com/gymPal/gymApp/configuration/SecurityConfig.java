@@ -13,9 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @EnableWebSecurity
@@ -42,10 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers(WHITELIST_SITES).permitAll()
                 .antMatchers("/workout/**").permitAll() //TODO TESTING ONLY
-                .antMatchers("/testing/getAllUsers").permitAll()
-                .antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN","ROLE_MODERATOR")
+                .antMatchers( "/api/user/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN","ROLE_MODERATOR")
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN").anyRequest().authenticated();
-        http.logout()
+       /* http.logout()
                 .logoutUrl("/logout")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .clearAuthentication(true)
@@ -56,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")//todo
                 .loginProcessingUrl("/todo")//todo
                 .defaultSuccessUrl("/homepage.html", true)//todo
-                .failureUrl("/failed");//TODO
+                .failureUrl("/failed");//TODO*/
 
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
