@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,9 +21,10 @@ public class Workout {
     private long workoutOwner;
     private String workoutName;
     private boolean isPublic = false;
-    @ManyToMany(mappedBy = "savedWorkouts")
-    private Set<User> userSet;
 
     @ElementCollection
-    Map<Long, ExcerciseRepsAndWeight> excerciseMap;
+    private Set<Long> userSet;
+
+    @ElementCollection
+    List<ExcerciseRepsAndWeight> excerciseList;
 }
