@@ -90,11 +90,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 }
 
                 User user = registrationToken.getUser();
-                if (user.isEnabled()) {
+                if (user.isEnabled() && !user.getRoles().contains("NOT_VERIFIED")) {
                     return ResponseEntity.status(400).body(USER_VERIFIED_ALREADY);
                 } else {
                     registrationToken.setTokenValid(TokenValid.TOKEN_USED);
                     user.setEnabled(true);
+                    Role role = roleRepository.findByName("ROLE_USER");
+                    Collection<Role> roleCollection = new ArrayList<>();
+                    roleCollection.add(role);
+                    user.setRoles(roleCollection);
                     userRepository.save(user);
                     tokenRepository.save(registrationToken);
                 }

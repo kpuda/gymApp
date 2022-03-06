@@ -27,13 +27,10 @@ public class User {
 
     private boolean isEnabled=false;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable( name = "workoutId",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "workout_id"))
-    private Set<Workout> savedWorkouts;
+    @ElementCollection
+    private Set<Long> savedWorkouts;
 
-    public User(String username, String email, String password, boolean isEnabled, Set<Workout> savedWorkouts) {
+    public User(String username, String email, String password, boolean isEnabled, Set<Long> savedWorkouts) {
         this.username = username;
         this.email = email;
         this.password = password;
