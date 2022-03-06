@@ -21,4 +21,9 @@ public class ServerConsts {
     public static final String AUTHENTICATION_FAILED = "AUTHENTICATION_FAILED";
     public static final String ISSUER = "GymPal";
     public static final long  EXPIRATION_TIME = 7 * 24 * 60 * 60 * 1000;
+
+    public static final String WORKOUT_SAVED = "WORKOUT_SAVED";
+    public static final String WORKOUT_DELETED = "WORKOUT_DELETED";
+    public static final String WORKOUT_UPDATED = "WORKOUT_UPDATED";
+
 }
