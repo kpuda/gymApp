@@ -9,6 +9,7 @@ import com.gymPal.gymApp.model.ExcerciseModel;
 import com.gymPal.gymApp.repository.ExcerciseRepository;
 import com.gymPal.gymApp.service.ExcerciseService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,12 @@ public class ExcerciseServiceImpl implements ExcerciseService {
         excerciseRepository.save(excercise);
     }
         return EXCERCISE_SAVED;
+    }
+
+    @Override
+    public ResponseEntity getAllExcercices() {
+        List<Excercise> excerciseList = excerciseRepository.findAll();
+        return ResponseEntity.ok().body(excerciseList);
     }
 
     @Transactional
