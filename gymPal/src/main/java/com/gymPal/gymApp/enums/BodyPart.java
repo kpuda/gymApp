@@ -10,7 +10,8 @@ public enum BodyPart {
     QUADS("quads"),
     GLUTES("glutes"),
     BICEPS_FEMORIS("biceps_femoris"),
-    CALVES("calves");
+    CALVES("calves"),
+    CORE("core");
 
     private String name;
 

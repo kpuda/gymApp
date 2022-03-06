@@ -1,4 +1,4 @@
-package com.gymPal.gymApp.controller;
+package com.gymPal.gymApp.controller.testing;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

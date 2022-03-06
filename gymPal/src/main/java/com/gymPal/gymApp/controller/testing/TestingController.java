@@ -1,4 +1,4 @@
-package com.gymPal.gymApp.controller;
+package com.gymPal.gymApp.controller.testing;
 
 import com.gymPal.gymApp.service.UserService;
 import lombok.AllArgsConstructor;
